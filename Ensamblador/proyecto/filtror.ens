@@ -111,3 +111,6 @@ nPositivo:
     cmp   r5, r2, r0
     bb1   gt, r5, bucle_compara; Si todavía no ha llegado al final, lo volvemos a ejecutar
     jmp(r1)
+    
+ FilRec:
+ jmp(r1)
