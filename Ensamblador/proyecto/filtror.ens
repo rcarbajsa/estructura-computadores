@@ -121,8 +121,28 @@ bucle_vpixel:   ld.bu r20, r2, r0;
                 br bucle_vpixel
 fin_b_vpixel:   or r29, r4, r4
                 jmp(r1)
+      
+      org   3000
+IMG5: data 3, 3, 0x00000001, 0x00000001,0x00000001,0x00000000, 0x00000000,0x00000001,0x00000001, 0x00000001,0x00000001
+    
+      org   3048
+i: data 1
+      org 3052
+j: data 1
+      
+      org 3056
+PPAL4:          LEA(r30, 0x8FF0)
+                LEA(r2, IMG5)
+                PUSH(r2)
+                LEA(r2, i)
+                PUSH(r2)
+                LEA(r2,j)
+                PUSH(r2)
+                bsr SubMatriz
+                POP(r1)
+                POP(r30)  
+                stop
                 
-FilPixel:       jmp(r1)
 SubMatriz:      ld r20, r30, r0; Guardamos puntero matriz
                 ld r21, r30, 4; Guardamos puntero submatriz
                 ld r2, r20, r0; Filas de la imagen
@@ -160,15 +180,17 @@ bucle_col_subm: ld.bu r10, r21, r8; Cargamos el elemento de r21 en r10
                 addu r20, r20, r3; Saltamos el el numero de columnas; Hacemos el salto de linea
                 br bucle_fila_subm
 borde:          ld r20, r30, 0; Volvemos al primer byte
-                ld r20, r20, 8
-                mulu r7, r3, r4; Nxi
-                addu r7, r7, r6; Nxi+j
-                ld.bu r8, r20, r7
-                xor r2, r2, r2
-b_borde:        st.b r8, r21, r2
+		addu r2, r2, 1; Obtenemos el numero de filas
+                addu r3, r3, 1; Obtenemos el numero de columnas
+                addu r20, r20, 8
+		addu r20,r20,r6
+		mulu r4,r3,r4
+		addu r20,r20,r4
+		ld.bu r10,r20,r0
+		xor r2,r2,r2
+b_borde:        st.b r10, r21, r2
                 addu r2, r2, 1
-                cmp r5, r2, 9
+                cmp r5, r2, 8
                 bb1 ne, r2, b_borde; Comprobamos que hayamos llegado a 9
 fin_submatriz  jmp(r1)
-                
-                jmp(r1)
+FilPixel:       jmp(r1)
