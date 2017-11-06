@@ -43,7 +43,7 @@ neg_nFiltrado:  st r0, r0, r0
                 subu r29, r0, 1; r29 <- (-1)
                 jmp  (r1)
 CERO:           st r0, r0, r0
-                jmp  (r1)
+                jmp  (r1) 
     
 
       org   24
@@ -160,15 +160,18 @@ bucle_col_subm: ld.bu r10, r21, r8; Cargamos el elemento de r21 en r10
                 addu r20, r20, r3; Saltamos el el numero de columnas; Hacemos el salto de linea
                 br bucle_fila_subm
 borde:          ld r20, r30, 0; Volvemos al primer byte
-                ld r20, r20, 8
-                mulu r7, r3, r4; Nxi
-                addu r7, r7, r6; Nxi+j
-                ld.bu r8, r20, r7
-                xor r2, r2, r2
-b_borde:        st.b r8, r21, r2
+		    addu r2, r2, 1; Obtenemos el numero de filas
+                addu r3, r3, 1; Obtenemos el numero de columnas
+                addu r20, r20, 8
+		    addu r20,r20,r6
+		    mulu r4,r3,r4
+		    addu r20,r20,r4
+		    ld.bu r10,r20,r0
+		    xor r2,r2,r2
+b_borde:        st.b r10, r21, r2
                 addu r2, r2, 1
-                cmp r5, r2, 9
+                cmp r5, r2, 8
                 bb1 ne, r2, b_borde; Comprobamos que hayamos llegado a 9
 fin_submatriz  jmp(r1)
                 
-                jmp(r1)
+ 
