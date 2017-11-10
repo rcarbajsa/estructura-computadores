@@ -111,7 +111,7 @@ VPixel:         ld r2, r30, r0; Subimagen
                 or r29, r0, r0
 bucle_vpixel:   ld.bu r20, r2, r0;
                 ld.bu r21, r3, r0;
-                cmp r5, r6, 9
+                cmp r5, r6, 8
                 bb1 eq, r5, fin_b_vpixel
                 addu r2, r2, 4
                 addu r3, r3, 4
@@ -119,7 +119,7 @@ bucle_vpixel:   ld.bu r20, r2, r0;
                 addu r4, r4, r20
                 addu r6, r6, 1
                 br bucle_vpixel
-fin_b_vpixel:   or r29, r4, r4
+fin_b_vpixel:   st r4,r29,0
                 jmp(r1)
                 
 FilPixel:       jmp(r1)
